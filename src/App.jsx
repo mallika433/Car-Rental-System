@@ -32,9 +32,7 @@ function Title() {
       <h1 className="text-4xl font-bold text-[#1F2937]">
         Car Rental System
       </h1>
-      <p className="text-[#6B7280] mt-2">
-        Smooth rentals with a clean pastel experience
-      </p>
+      <p className="text-[#6B7280] mt-2">Smooth rentals</p>
     </div>
   );
 }

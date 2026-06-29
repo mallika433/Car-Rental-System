@@ -1,4 +1,7 @@
+import { useState } from "react";
 import CarCard from "./CarCard";
+import Button from "./Button";
+import AddCar from "./AddCar";
 
 import car1 from "../assets/toyotaCorolla.jpeg";
 import car2 from "../assets/hondaCivic.jpeg";
@@ -7,12 +10,12 @@ import car4 from "../assets/teslaModel3.jpeg";
 import car5 from "../assets/jeepWrangler.jpeg";
 
 export default function CarGrid() {
-  const cars = [
+  const [cars, setCars] = useState([
     {
       id: 1,
       model: "Toyota Corolla",
       type: "Sedan",
-      rate: 50,
+      rate: 5000,
       available: true,
       image: car1,
     },
@@ -20,7 +23,7 @@ export default function CarGrid() {
       id: 2,
       model: "Honda Civic",
       type: "Sedan",
-      rate: 55,
+      rate: 5500,
       available: false,
       image: car2,
     },
@@ -28,7 +31,7 @@ export default function CarGrid() {
       id: 3,
       model: "Ford Mustang",
       type: "Sports",
-      rate: 120,
+      rate: 12000,
       available: true,
       image: car3,
     },
@@ -36,7 +39,7 @@ export default function CarGrid() {
       id: 4,
       model: "Tesla Model 3",
       type: "Electric",
-      rate: 150,
+      rate: 15000,
       available: false,
       image: car4,
     },
@@ -44,17 +47,46 @@ export default function CarGrid() {
       id: 5,
       model: "Jeep Wrangler",
       type: "SUV",
-      rate: 90,
+      rate: 9000,
       available: true,
       image: car5,
     },
-  ];
+  ]);
+
+  const [isClicked, setIsClicked] = useState(false);
+
+  function handleAddCar() {
+    setIsClicked(true);
+  }
+
+  function handleCancel() {
+    setIsClicked(false);
+  }
+
+  function addNewCar(newCar) {
+    setCars([...cars, newCar]);
+    setIsClicked(false);
+  }
 
   return (
-    <div className="flex flex-wrap gap-6 justify-center mt-6">
-      {cars.map((car) => (
-        <CarCard key={car.id} car={car} />
-      ))}
-    </div>
+    <>
+      {!isClicked && (
+        <div className="flex justify-center mb-6">
+          <Button text="+ Add New Car" onClick={handleAddCar} />
+        </div>
+      )}
+
+      {isClicked && (
+        <div className="mb-8">
+          <AddCar onCancel={handleCancel} onAddCar={addNewCar} />
+        </div>
+      )}
+
+      <div className="flex flex-wrap gap-6 justify-center mt-6">
+        {cars.map((car) => (
+          <CarCard key={car.id} car={car} />
+        ))}
+      </div>
+    </>
   );
 }
