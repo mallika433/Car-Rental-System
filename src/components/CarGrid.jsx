@@ -1,92 +1,96 @@
 import { useState } from "react";
 import CarCard from "./CarCard";
 import Button from "./Button";
-import AddCar from "./AddCar";
+import BookingModal from "./BookingModal";
+import { useNavigate } from "react-router-dom";
 
-import car1 from "../assets/toyotaCorolla.jpeg";
-import car2 from "../assets/hondaCivic.jpeg";
-import car3 from "../assets/fordMustang.jpeg";
-import car4 from "../assets/teslaModel3.jpeg";
-import car5 from "../assets/jeepWrangler.jpeg";
+export default function CarGrid({
+  cars,
+  setCars,
+  bookings,
+  setBookings,
+}) {
+  const navigate = useNavigate();
 
-export default function CarGrid() {
-  const [cars, setCars] = useState([
-    {
-      id: 1,
-      model: "Toyota Corolla",
-      type: "Sedan",
-      rate: 5000,
-      available: true,
-      image: car1,
-    },
-    {
-      id: 2,
-      model: "Honda Civic",
-      type: "Sedan",
-      rate: 5500,
-      available: false,
-      image: car2,
-    },
-    {
-      id: 3,
-      model: "Ford Mustang",
-      type: "Sports",
-      rate: 12000,
-      available: true,
-      image: car3,
-    },
-    {
-      id: 4,
-      model: "Tesla Model 3",
-      type: "Electric",
-      rate: 15000,
-      available: false,
-      image: car4,
-    },
-    {
-      id: 5,
-      model: "Jeep Wrangler",
-      type: "SUV",
-      rate: 9000,
-      available: true,
-      image: car5,
-    },
-  ]);
+  const [selectedCar, setSelectedCar] = useState(null);
+  const [filter, setFilter] = useState("All");
 
-  const [isClicked, setIsClicked] = useState(false);
-
-  function handleAddCar() {
-    setIsClicked(true);
+  function handleBook(car) {
+    setSelectedCar(car);
   }
 
-  function handleCancel() {
-    setIsClicked(false);
+  function handleClick() {
+    navigate("/add");
   }
 
-  function addNewCar(newCar) {
-    setCars([...cars, newCar]);
-    setIsClicked(false);
+  function confirmBooking(startDate, endDate, totalCost) {
+    if (!selectedCar) return;
+
+    const booking = {
+      bookingId: Date.now(),
+      carId: selectedCar.id,
+      carModel: selectedCar.model,
+      startDate,
+      endDate,
+      totalCost,
+    };
+
+    setBookings((prev) => [...prev, booking]);
+
+    setCars((prevCars) =>
+      prevCars.map((car) =>
+        car.id === selectedCar.id
+          ? { ...car, available: false }
+          : car
+      )
+    );
+
+    setSelectedCar(null);
   }
+
+  const filteredCars =
+    filter === "All"
+      ? cars
+      : cars.filter((car) => car.type === filter);
 
   return (
     <>
-      {!isClicked && (
-        <div className="flex justify-center mb-6">
-          <Button text="+ Add New Car" onClick={handleAddCar} />
-        </div>
-      )}
+      <div className="flex justify-center gap-4 mb-6">
+        <Button onClick={handleClick}>
+          + Add New Car
+        </Button>
 
-      {isClicked && (
-        <div className="mb-8">
-          <AddCar onCancel={handleCancel} onAddCar={addNewCar} />
-        </div>
-      )}
+        <select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          className="px-4 py-2 rounded-lg border"
+        >
+          <option>All</option>
+          <option>Sedan</option>
+          <option>SUV</option>
+          <option>Hatchback</option>
+          <option>Sports</option>
+          <option>Electric</option>
+        </select>
+      </div>
 
       <div className="flex flex-wrap gap-6 justify-center mt-6">
-        {cars.map((car) => (
-          <CarCard key={car.id} car={car} />
+        {filteredCars.map((car) => (
+          <CarCard
+            key={car.id}
+            car={car}
+            onBook={handleBook}
+          />
         ))}
       </div>
+
+      {selectedCar && (
+        <BookingModal
+          car={selectedCar}
+          onClose={() => setSelectedCar(null)}
+          onConfirm={confirmBooking}
+        />
+      )}
     </>
   );
 }

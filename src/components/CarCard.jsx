@@ -1,7 +1,6 @@
-export default function CarCard({ car }) {
+export default function CarCard({ car, onBook }) {
   return (
     <div className="w-96 rounded-2xl bg-white border border-[#E5E7EB] shadow-sm p-6 hover:shadow-lg transition duration-300">
-
       {/* Image */}
       <div className="h-56 rounded-xl mb-5 overflow-hidden">
         <img
@@ -41,6 +40,7 @@ export default function CarCard({ car }) {
       {/* Book Button */}
       <button
         disabled={!car.available}
+        onClick={() => onBook(car)}
         className={`mt-5 w-full py-3 rounded-lg font-medium text-lg transition duration-300 shadow-sm ${
           car.available
             ? "bg-[#4F86FF] text-white hover:bg-[#3B73F0] hover:scale-[1.02]"

@@ -1,14 +1,22 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function AddCar({ onCancel, onAddCar }) {
+export default function AddCar({ onAddCar }) {
   const [carModel, setCarModel] = useState("");
   const [carType, setCarType] = useState("");
   const [carRate, setCarRate] = useState("");
   const [carImage, setCarImage] = useState(null);
   const [carAvailable, setCarAvailable] = useState(true);
 
+  const navigate = useNavigate();
+
   function handleSubmit(e) {
     e.preventDefault();
+
+    if (!carModel || !carType || !carRate) {
+      alert("Please fill all required fields");
+      return;
+    }
 
     const newCar = {
       id: Date.now(),
@@ -22,6 +30,7 @@ export default function AddCar({ onCancel, onAddCar }) {
     };
 
     onAddCar(newCar);
+    navigate("/");
   }
 
   return (
@@ -80,7 +89,7 @@ export default function AddCar({ onCancel, onAddCar }) {
 
           <button
             type="button"
-            onClick={onCancel}
+            onClick={() => navigate("/")}
             className="flex-1 bg-red-500 text-white py-3 rounded-lg font-medium hover:bg-red-600 transition"
           >
             Cancel
