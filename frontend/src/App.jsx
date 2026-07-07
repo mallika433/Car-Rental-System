@@ -34,7 +34,7 @@ export default function App() {
       model: "Ford Mustang",
       type: "Sports",
       rate: 12000,
-      available: true,
+      available: false,
       image: car3,
     },
     {
@@ -62,6 +62,11 @@ export default function App() {
   useEffect(() => {
     setFleetValue(cars.reduce((sum, car) => sum + car.rate, 0));
     setRentedCount(cars.filter((car) => !car.available).length);
+  }, [cars]);
+
+  useEffect(() => {
+    const availableCars = cars.filter((car) => car.available).length;
+    document.title = `Car Rental - ${availableCars} Cars`;
   }, [cars]);
 
   function addNewCar(newCar) {
