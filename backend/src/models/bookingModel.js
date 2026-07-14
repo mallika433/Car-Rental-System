@@ -1,17 +1,20 @@
-import bookings from "../../data/bookings.js";
+import mongoose from "mongoose";
+import booking from "../../data/booking.js";
 
-export function add(booking) {
-    bookings.push(booking);
-    return booking;
+export async function add(newBooking) {
+    return await booking.create(newBooking);
 }
 
-export function cancel(id) {
-    const booking = bookings.find(b => b.id == id);
-
-    if (!booking) {
-        return false;
+export async function cancel(id) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return null;
     }
 
-    booking.status = "Cancelled";
-    return true;
+    const objectId = new mongoose.Types.ObjectId(id);
+
+    return await booking.findByIdAndUpdate(
+        objectId,
+        { status: "Cancelled" },
+        { new: true }
+    );
 }

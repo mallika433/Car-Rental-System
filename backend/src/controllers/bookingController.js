@@ -1,34 +1,30 @@
 import * as BookingModel from "../models/bookingModel.js";
 
-let nextBookingId = 1;
+export async function addBooking(req, res) {
 
-export function addBooking(req, res) {
-
-    const booking = {
-        id: nextBookingId++,
+    const newBooking = await BookingModel.add({
         ...req.body,
         status: "Booked"
-    };
+    });
 
-    BookingModel.add(booking);
-
-    res.status(201).json({
+    return res.status(201).json({
         message: "Booking created",
-        data: booking
+        data: newBooking
     });
 }
 
-export function cancelBooking(req, res) {
+export async function cancelBooking(req, res) {
 
-    const cancelled = BookingModel.cancel(req.params.id);
+    const cancelledBooking = await BookingModel.cancel(req.params.id);
 
-    if (!cancelled) {
+    if (!cancelledBooking) {
         return res.status(404).json({
-            error: "Booking not found"
+            error: "Booking not found or invalid ID"
         });
     }
 
-    res.json({
-        message: "Booking cancelled"
+    return res.status(200).json({
+        message: "Booking cancelled",
+        data: cancelledBooking
     });
 }
