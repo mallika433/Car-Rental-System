@@ -5,11 +5,11 @@ import CarGrid from "./components/CarGrid";
 import AddCar from "./components/AddCar";
 import MyBookings from "./components/MyBookings";
 
-import car1 from "./assets/toyotaCorolla.jpeg";
-import car2 from "./assets/hondaCivic.jpeg";
-import car3 from "./assets/fordMustang.jpeg";
-import car4 from "./assets/teslaModel3.jpeg";
-import car5 from "./assets/jeepWrangler.jpeg";
+// import car1 from "./assets/toyotaCorolla.jpeg";
+// import car2 from "./assets/hondaCivic.jpeg";
+// import car3 from "./assets/fordMustang.jpeg";
+// import car4 from "./assets/teslaModel3.jpeg";
+// import car5 from "./assets/jeepWrangler.jpeg";
 
 export default function App() {
   const [cars, setCars] = useState([
@@ -19,7 +19,7 @@ export default function App() {
       type: "Sedan",
       rate: 5000,
       available: true,
-      image: car1,
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRg59BOcD_63i61GKkLKx6Y8ADa-PYl6XBWth-wswKo9VJayvAJoNCfOw&s=10",
     },
     {
       id: 2,
@@ -27,7 +27,7 @@ export default function App() {
       type: "Sedan",
       rate: 5500,
       available: true,
-      image: car2,
+      image: "https://www.automobileendirect.com/assets/vehicles/2HGFE2F33NH113986/2022-honda-civic-sedan/w1080/07f2c89ac76340afbdfe7f1f7f49db9d.webp",
     },
     {
       id: 3,
@@ -35,7 +35,7 @@ export default function App() {
       type: "Sports",
       rate: 12000,
       available: false,
-      image: car3,
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqmjlAWLBecPUsUg6HBDHfM9fP4bOmMQUojS_eIdIZrUb5H1jDqQsGhrdN&s=10",
     },
     {
       id: 4,
@@ -43,7 +43,7 @@ export default function App() {
       type: "Electric",
       rate: 15000,
       available: true,
-      image: car4,
+      image: "https://car-images.bauersecure.com/wp-images/189979/01-tesla_model_3_performance_2.jpeg",
     },
     {
       id: 5,
@@ -51,7 +51,7 @@ export default function App() {
       type: "SUV",
       rate: 9000,
       available: true,
-      image: car5,
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0RJjtp4RpyM9QtDH7nUX5Yiqc3Td0mNLWb8ny7UxJlaUOGChdPgDnHtiC&s=10",
     },
   ]);
 
