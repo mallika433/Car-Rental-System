@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import car from "../../data/car.js";
+import car from "../data/car.js";
 
 export async function getAll() {
     return await car.find();

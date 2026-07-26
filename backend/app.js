@@ -1,21 +1,39 @@
 import express from "express"
 import cors from 'cors'
 import dotenv from 'dotenv'
-import dbConnection from './src/config/db.js'
-import carRoutes from './src/routes/carRoutes.js'
-import bookingRoutes from "./src/routes/bookingRoutes.js";
+import cookieParser from 'cookie-parser'
+import dbConnection from './config/db.js'
+import carRoutes from './routes/carRoutes.js'
+import bookingRoutes from "./routes/bookingRoutes.js"
+import authRoutes from './routes/authRoutes.js'
 
-
-const app = express()
 dotenv.config()
 
+const app = express()
+
+// CORS configuration
+app.use(
+  cors({
+    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+    credentials: true,
+  }),
+)
+
 app.use(express.json())
-app.use(cors())
+app.use(cookieParser())
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3001
 
-app.use(carRoutes);
-app.use(bookingRoutes);
+// Mount auth routes
+app.use('/auth', authRoutes)
+
+// Mount car and booking routes both at /api prefix and root level for maximum flexibility
+app.use('/cars', carRoutes)
+app.use('/bookings', bookingRoutes)
+
+app.use('/api/cars', carRoutes)
+app.use('/api/bookings', bookingRoutes)
+app.use('/api/auth', authRoutes)
 
 await dbConnection()
 

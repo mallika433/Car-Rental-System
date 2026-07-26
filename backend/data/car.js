@@ -22,6 +22,11 @@ const carSchema = mongoose.Schema({
     image: {
         required: false,
         type: String
+    },
+    plateNumber: {
+        type: String,
+        required: true,
+        trim: true
     }
 })
 

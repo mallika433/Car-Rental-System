@@ -10,4 +10,11 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] }),
     tailwindcss()
   ],
+  server: {
+    proxy: {
+      '/cars': 'http://localhost:3001',
+      '/auth': 'http://localhost:3001',
+      '/bookings': 'http://localhost:3001',
+    },
+  },
 })
