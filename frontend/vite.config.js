@@ -12,9 +12,18 @@ export default defineConfig({
   ],
   server: {
     proxy: {
-      '/cars': 'http://localhost:3001',
-      '/auth': 'http://localhost:3001',
-      '/bookings': 'http://localhost:3001',
+      "/cars": {
+        target: "http://127.0.0.1:3001",
+        changeOrigin: true,
+      },
+      "/auth": {
+        target: "http://127.0.0.1:3001",
+        changeOrigin: true,
+      },
+      "/bookings": {
+        target: "http://127.0.0.1:3001",
+        changeOrigin: true,
+      },
     },
-  },
+  }
 })

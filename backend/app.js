@@ -12,18 +12,27 @@ dotenv.config()
 const app = express()
 
 // CORS configuration
-app.use(
-  cors({
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
-    credentials: true,
-  }),
-)
+app.use(cors(
+  {
+    origin:(origin, callback)=>{
+      if(!origin || 
+        ['http://localhost:5173', process.env.FRONTEND_URL].includes(origin)
+      ){
+        return callback(null, true)
+      }
+      callback(new Error("CORS origin not allowed"))
+    }
+    ,credentials:true
+  }
+))
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 const PORT = process.env.PORT || 3001
 
+app.get('/health', (req,res) => res.status(200).json({ok: true}))
 // Mount auth routes
 app.use('/auth', authRoutes)
 

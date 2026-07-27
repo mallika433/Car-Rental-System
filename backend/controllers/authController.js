@@ -3,7 +3,6 @@ import { login, register } from '../models/authModel.js'
 import {
   clearAuthCookie,
   generateToken,
-  setAuthCookie,
   verifyToken,
   COOKIE_NAME,
 } from '../utils/auth.js'
@@ -18,15 +17,21 @@ function userPayload(user) {
   }
 }
 
+const cookieOptions={
+  httpOnly: true,
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+  sameSite: process.env.NODE_ENV == 'production' ? 'none' : 'lax',
+  secure: process.env.NODE_ENV === 'production',
+}
+
 export const registerUser = async (req, res) => {
   try {
     const registeredUser = await register(req.body)
     const token = generateToken(registeredUser)
-    setAuthCookie(res, token)
+    res.cookie('jwtToken', token, cookieOptions)
 
     return res.status(201).json({
       data: userPayload(registeredUser),
-      token,
     })
   } catch (error) {
     return res.status(400).json({ error: error.message })
@@ -35,18 +40,19 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   try {
-    const loggedInUser = await login(req.body)
-    const token = generateToken(loggedInUser)
-    setAuthCookie(res, token)
+    const loggedInUser = await login(req.body);
+    const token = generateToken(loggedInUser);
+
+    res.cookie("jwtToken", token, cookieOptions);
 
     return res.status(200).json({
       data: userPayload(loggedInUser),
-      token,
-    })
+    });
   } catch (error) {
-    return res.status(400).json({ error: error.message })
+    console.error(error);
+    return res.status(400).json({ error: error.message });
   }
-}
+};
 
 export const logoutUser = async (req, res) => {
   clearAuthCookie(res)

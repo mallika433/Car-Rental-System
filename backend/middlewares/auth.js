@@ -1,12 +1,7 @@
-import { COOKIE_NAME, verifyToken } from '../utils/auth.js'
+import { verifyToken } from '../utils/auth.js'
 
 export function authenticationMiddleware(req, res, next) {
-  let token = req.cookies?.[COOKIE_NAME]
-
-  // Fallback to Bearer token header
-  if (!token && req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
-    token = req.headers.authorization.split(' ')[1]
-  }
+  let token = req.cookies?.jwtToken
 
   if (!token) {
     return res.status(401).json({ error: 'You are not authenticated' })
