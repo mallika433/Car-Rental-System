@@ -1,10 +1,8 @@
 import User from '../data/user.js'
 import { login, register } from '../models/authModel.js'
 import {
-  clearAuthCookie,
   generateToken,
   verifyToken,
-  COOKIE_NAME,
 } from '../utils/auth.js'
 
 function userPayload(user) {
@@ -55,13 +53,13 @@ export const loginUser = async (req, res) => {
 };
 
 export const logoutUser = async (req, res) => {
-  clearAuthCookie(res)
+  res.clearCookie('jwtToken', cookieOptions)
   return res.status(200).json({ data: { message: 'Logged out' } })
 }
 
 export const getMe = async (req, res) => {
   try {
-    let token = req.cookies?.[COOKIE_NAME]
+    let token = req.cookies?.jwtToken
     if (!token && req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
       token = req.headers.authorization.split(' ')[1]
     }
@@ -73,13 +71,13 @@ export const getMe = async (req, res) => {
     const decoded = verifyToken(token)
     const user = await User.findById(decoded._id).select('-password')
     if (!user) {
-      clearAuthCookie(res)
+      res.clearCookie('jwtToken', cookieOptions)
       return res.status(401).json({ error: 'User not found' })
     }
 
     return res.status(200).json({ data: userPayload(user) })
   } catch {
-    clearAuthCookie(res)
+    res.clearCookie('jwtToken', cookieOptions)
     return res.status(401).json({ error: 'Invalid token' })
   }
 }
