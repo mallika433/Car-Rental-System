@@ -79,6 +79,7 @@ export default function Signup() {
             type='text'
             value={form.name}
             onChange={handleChange}
+            placeholder='Grace Thapa'
             required
             className={`px-1 py-2.5 text-sm text-slate-900 bg-white w-full border-b-2 outline-none ${
               fieldErrors.name ? 'border-red-500 focus:border-red-600' : 'border-slate-300 focus:border-blue-600'
@@ -100,6 +101,7 @@ export default function Signup() {
             type='email'
             value={form.email}
             onChange={handleChange}
+            placeholder='grace@example.com'
             required
             className={`px-1 py-2.5 text-sm text-slate-900 bg-white w-full border-b-2 outline-none ${
               fieldErrors.email ? 'border-red-500 focus:border-red-600' : 'border-slate-300 focus:border-blue-600'
@@ -121,6 +123,7 @@ export default function Signup() {
             type='password'
             value={form.password}
             onChange={handleChange}
+            placeholder='Enter your password'
             minLength={8}
             required
             className={`px-1 py-2.5 text-sm text-slate-900 bg-white w-full border-b-2 outline-none ${
@@ -154,7 +157,7 @@ export default function Signup() {
           >
             <option value='customer'>Customer (Rent cars, view own bookings)</option>
             <option value='staff'>Staff (Manage all bookings, cancel bookings)</option>
-            <option value='admin'>Admin (Add/remove cars, manage all bookings)</option>
+            {/* <option value='admin'>Admin (Add/remove cars, manage all bookings)</option> */}
           </select>
         </div>
 

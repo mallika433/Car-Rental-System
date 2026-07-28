@@ -1,7 +1,9 @@
 import axios from 'axios'
 
+const APIURL = import.meta.env.API_URL || 'https://car-rental-system-j5kc.onrender.com'
+
 const api = axios.create({
-  baseURL: 'https://car-rental-system-j5kc.onrender.com/bookings',
+  baseURL: `${APIURL}/bookings`,
   withCredentials: true,
 })
 
