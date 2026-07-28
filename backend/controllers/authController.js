@@ -20,6 +20,7 @@ const cookieOptions={
   maxAge: 7 * 24 * 60 * 60 * 1000,
   sameSite: process.env.NODE_ENV == 'production' ? 'none' : 'lax',
   secure: process.env.NODE_ENV === 'production',
+  path: '/',
 }
 
 export const registerUser = async (req, res) => {
