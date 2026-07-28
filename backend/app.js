@@ -32,6 +32,10 @@ app.use(cookieParser())
 
 const PORT = process.env.PORT || 3001
 
+app.get('/', (req, res) => {
+    res.send('Car Rental API is running')
+})
+
 app.get('/health', (req,res) => res.status(200).json({ok: true}))
 // Mount auth routes
 app.use('/auth', authRoutes)
