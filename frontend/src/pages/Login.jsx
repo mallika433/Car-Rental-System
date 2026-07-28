@@ -8,10 +8,25 @@ export default function Login() {
   const { login } = useAuth()
   const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
+  const [fieldErrors, setFieldErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  function validateField(name, value) {
+    if (name === 'email') {
+      if (!value) return 'Email is required'
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Invalid email address'
+    }
+    if (name === 'password') {
+      if (!value) return 'Password is required'
+      if (value.length < 8) return 'Password must be at least 8 characters'
+    }
+    return ''
+  }
+
   function handleChange(e) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setForm((prev) => ({ ...prev, [name]: value }))
+    setFieldErrors((prev) => ({ ...prev, [name]: validateField(name, value) }))
   }
 
   async function handleSubmit(e) {
@@ -57,8 +72,11 @@ export default function Login() {
             value={form.email}
             onChange={handleChange}
             required
-            className='px-1 py-2.5 text-sm text-slate-900 bg-white w-full border-b-2 border-slate-300 focus:border-blue-600 outline-none'
+            className={`px-1 py-2.5 text-sm text-slate-900 bg-white w-full border-b-2 outline-none ${
+              fieldErrors.email ? 'border-red-500 focus:border-red-600' : 'border-slate-300 focus:border-blue-600'
+            }`}
           />
+          {fieldErrors.email && <p className='text-xs text-red-500 mt-1'>{fieldErrors.email}</p>}
         </div>
 
         <div>
@@ -76,8 +94,11 @@ export default function Login() {
             onChange={handleChange}
             minLength={8}
             required
-            className='px-1 py-2.5 text-sm text-slate-900 bg-white w-full border-b-2 border-slate-300 focus:border-blue-600 outline-none'
+            className={`px-1 py-2.5 text-sm text-slate-900 bg-white w-full border-b-2 outline-none ${
+              fieldErrors.password ? 'border-red-500 focus:border-red-600' : 'border-slate-300 focus:border-blue-600'
+            }`}
           />
+          {fieldErrors.password && <p className='text-xs text-red-500 mt-1'>{fieldErrors.password}</p>}
         </div>
 
         <CarButton
