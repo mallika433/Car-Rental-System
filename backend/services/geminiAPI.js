@@ -15,11 +15,13 @@ const ai = new GoogleGenAI({
 })
 
 export const generateAIResponse = async (prompt) => {
-  const interaction = await ai.interactions.create({
+  const response = await ai.models.generateContent({
     model: 'gemini-3.6-flash',
-    input: prompt,
-    system_instruction: SystemInstruction,
-  })
+    contents: prompt,
+    config: {
+        systemInstruction: SystemInstruction,
+    }
+  });
 
-  return interaction.output_text
+  return response.text;
 }
