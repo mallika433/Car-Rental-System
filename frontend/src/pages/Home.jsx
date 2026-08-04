@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getCars } from '../api/carApi.js'
 import CarGrid from '../components/CarGrid.jsx'
+import AIAssistant from '../components/AIAssistant.jsx'
 
 export default function Home({ cars: allCars, addBooking, isLoading: defaultLoading, errors: defaultErrors }) {
   const [selectedDate, setSelectedDate] = useState('')
@@ -97,6 +98,8 @@ export default function Home({ cars: allCars, addBooking, isLoading: defaultLoad
           )}
         </div>
       </div>
+
+      <AIAssistant />
 
       <CarGrid
         cars={displayCars}
