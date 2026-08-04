@@ -42,12 +42,7 @@ export default function AIAssistant() {
         <div className="bg-slate-900/40 backdrop-blur-xl rounded-[1.4rem] p-6 md:p-8">
           
           <div className="flex items-center gap-3 mb-6">
-            <div className="bg-indigo-500/20 p-2 rounded-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">AI "Find My Car" Assistant</h2>
+            <h2 className="text-2xl font-bold text-white tracking-tight">AI Assisted - Find My Car</h2>
           </div>
 
           <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4 mb-2">
